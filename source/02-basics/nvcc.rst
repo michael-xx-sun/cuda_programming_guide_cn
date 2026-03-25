@@ -49,7 +49,7 @@
 
 仅包含主机代码的文件可以使用 ``nvcc`` 或直接使用主机编译器构建。生成的目标文件可以在链接时与包含 GPU 代码的 ``nvcc`` 目标文件组合。
 
-GPU 编译器将 C/C++ 设备代码编译为 PTX 汇编代码。GPU 编译器会针对编译命令行中指定的每个虚拟机指令集架构（例如 ``compute_90``）运行。
+GPU 编译器将 C/C++ 设备代码编译为 PTX 汇编代码。GPU 编译器会针对编译命令行中指定的每个虚拟机指令集架构（例如 ``compute_90`` ）运行。
 
 然后将各个 PTX 代码传递给 ``ptxas`` 工具，该工具为目标硬件 ISA 生成 `Cubin <../01-introduction/cuda-platform.html#cuda-platform-cubins-fatbins>`__。硬件 ISA 由其 `SM 版本 <../01-introduction/cuda-platform.html#cuda-platform-compute-capability-sm-version>`__ 标识。
 

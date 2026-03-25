@@ -3,7 +3,7 @@
 计算能力
 ========
 
-计算设备的一般规格和功能取决于其计算能力（参见 :ref:`cuda-platform-compute-capability-sm-version`）。
+计算设备的一般规格和功能取决于其计算能力（参见 :ref:`cuda-platform-compute-capability-sm-version` ）。
 
 :ref:`compute-capabilities-table-features-and-technical-specifications-feature-support-per-compute-capability`、:ref:`compute-capabilities-table-device-and-streaming-multiprocessor-sm-information-per-compute-capability` 和 :ref:`compute-capabilities-table-memory-information-per-compute-capability` 展示了当前支持的每个计算能力相关联的功能和技术规格。
 
@@ -59,7 +59,7 @@
 架构特定功能
 ~~~~~~~~~~~~
 
-从计算能力 9.0 的设备开始，随架构引入的专用计算功能可能无法保证在所有后续计算能力上都可用。这些功能称为*架构特定*（architecture-specific）功能，旨在加速专用操作，如 Tensor Core 操作，这些操作并非适用于所有类型的计算能力，或者可能在未来的代次中发生重大变化。代码必须使用架构特定的编译器目标编译（参见 :ref:`compute-capabilities-feature-set-compiler-targets`）才能启用架构特定功能。使用架构特定编译器目标编译的代码只能在其编译的目标计算能力上运行。
+从计算能力 9.0 的设备开始，随架构引入的专用计算功能可能无法保证在所有后续计算能力上都可用。这些功能称为*架构特定*（architecture-specific）功能，旨在加速专用操作，如 Tensor Core 操作，这些操作并非适用于所有类型的计算能力，或者可能在未来的代次中发生重大变化。代码必须使用架构特定的编译器目标编译（参见 :ref:`compute-capabilities-feature-set-compiler-targets` ）才能启用架构特定功能。使用架构特定编译器目标编译的代码只能在其编译的目标计算能力上运行。
 
 .. _compute-capabilities-family-specific-features:
 
@@ -139,21 +139,21 @@
      - 10.x
      - 11.0
      - 12.x
-   * - 对共享内存和全局内存中 128 位整数值的原子操作（:ref:`atomic-functions`）
+   * - 对共享内存和全局内存中 128 位整数值的原子操作（ :ref:`atomic-functions` ）
      - No
      - Yes
      - Yes
      - Yes
      - Yes
      - Yes
-   * - 对全局内存中 ``float2`` 和 ``float4`` 浮点向量的原子加法（:ref:`atomicadd`）
+   * - 对全局内存中 ``float2`` 和 ``float4`` 浮点向量的原子加法（ :ref:`atomicadd` ）
      - No
      - Yes
      - Yes
      - Yes
      - Yes
      - Yes
-   * - Warp 归约函数（:ref:`warp-reduce-functions`）
+   * - Warp 归约函数（ :ref:`warp-reduce-functions` ）
      - No
      - Yes
      - Yes
@@ -174,28 +174,28 @@
      - Yes
      - Yes
      - Yes
-   * - 硬件加速的 ``memcpy_async``（:ref:`pipelines`）
+   * - 硬件加速的 ``memcpy_async``（ :ref:`pipelines` ）
      - No
      - Yes
      - Yes
      - Yes
      - Yes
      - Yes
-   * - 硬件加速的 Split Arrive/Wait 屏障（:ref:`asynchronous-barriers`）
+   * - 硬件加速的 Split Arrive/Wait 屏障（ :ref:`asynchronous-barriers` ）
      - No
      - Yes
      - Yes
      - Yes
      - Yes
      - Yes
-   * - L2 缓存驻留管理（:ref:`advanced-kernels-l2-control`）
+   * - L2 缓存驻留管理（ :ref:`advanced-kernels-l2-control` ）
      - No
      - Yes
      - Yes
      - Yes
      - Yes
      - Yes
-   * - 用于加速动态规划的 DPX 指令（:ref:`dpx-instructions`）
+   * - 用于加速动态规划的 DPX 指令（ :ref:`dpx-instructions` ）
      - Multiple Instr.
      - Native
      - Multiple Instr.
@@ -209,14 +209,14 @@
      - Yes
      - Yes
      - Yes
-   * - 线程块集群（:ref:`thread-block-clusters`）
+   * - 线程块集群（ :ref:`thread-block-clusters` ）
      - No
      - No
      - Yes
      - Yes
      - Yes
      - Yes
-   * - Tensor Memory Accelerator (TMA) 单元（:ref:`async-copies-tma`）
+   * - Tensor Memory Accelerator (TMA) 单元（ :ref:`async-copies-tma` ）
      - No
      - No
      - Yes

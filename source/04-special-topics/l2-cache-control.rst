@@ -78,7 +78,7 @@ L2 持久性也可以为 CUDA Graph Kernel Node 设置，如下例所示：
    // 将属性设置到 cudaGraphNode_t 类型的 CUDA Graph Kernel 节点
    cudaGraphKernelNodeSetAttribute(node, cudaKernelNodeAttributeAccessPolicyWindow, &node_attribute);
 
-``hitRatio`` 参数可用于指定接收 ``hitProp`` 属性的访问比例。在上面的两个示例中，全局内存区域 ``[ptr..ptr+num_bytes)`` 中 60% 的内存访问具有持久化属性，40% 的内存访问具有流式属性。哪些特定的内存访问被分类为持久化（即 ``hitProp``）是随机的，概率约为 ``hitRatio``；概率分布取决于硬件架构和内存范围。
+``hitRatio`` 参数可用于指定接收 ``hitProp`` 属性的访问比例。在上面的两个示例中，全局内存区域 ``[ptr..ptr+num_bytes)`` 中 60% 的内存访问具有持久化属性，40% 的内存访问具有流式属性。哪些特定的内存访问被分类为持久化（即 ``hitProp`` ）是随机的，概率约为 ``hitRatio``；概率分布取决于硬件架构和内存范围。
 
 例如，如果 L2 预留缓存大小为 16KB，而 ``accessPolicyWindow`` 中的 ``num_bytes`` 为 32KB：
 

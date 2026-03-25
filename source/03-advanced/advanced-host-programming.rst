@@ -17,7 +17,7 @@
 - 动态共享内存（可选，未指定时为 0）
 - 流（未指定时使用默认流）
 
-一些 CUDA 特性可以从 kernel 启动时提供的额外属性和提示中受益。``cudaLaunchKernelEx`` 允许程序通过 ``cudaLaunchConfig_t`` 结构体设置上述执行配置参数。此外，``cudaLaunchConfig_t`` 结构体还允许程序传入零个或多个 ``cudaLaunchAttributes`` 来控制或建议 kernel 启动的其他参数。例如，本章后面讨论的 ``cudaLaunchAttributePreferredSharedMemoryCarveout``（参见 :ref:`配置 L1/共享内存平衡 <sec:advanced-kernel-l1-shared-config>`）就是使用 ``cudaLaunchKernelEx`` 指定的。本章后面讨论的 ``cudaLaunchAttributeClusterDimension`` 属性用于指定 kernel 启动所需的 cluster 大小。
+一些 CUDA 特性可以从 kernel 启动时提供的额外属性和提示中受益。``cudaLaunchKernelEx`` 允许程序通过 ``cudaLaunchConfig_t`` 结构体设置上述执行配置参数。此外，``cudaLaunchConfig_t`` 结构体还允许程序传入零个或多个 ``cudaLaunchAttributes`` 来控制或建议 kernel 启动的其他参数。例如，本章后面讨论的 ``cudaLaunchAttributePreferredSharedMemoryCarveout``（参见 :ref:`配置 L1/共享内存平衡 <sec:advanced-kernel-l1-shared-config>` ）就是使用 ``cudaLaunchKernelEx`` 指定的。本章后面讨论的 ``cudaLaunchAttributeClusterDimension`` 属性用于指定 kernel 启动所需的 cluster 大小。
 
 支持的属性完整列表及其含义请参阅 `CUDA Runtime API 参考文档 <https://docs.nvidia.com/cuda/cuda-runtime-api/group__CUDART__TYPES.html#group__CUDART__TYPES_1gfc5ed48085f05863b1aeebb14934b056>`_。
 
@@ -126,7 +126,7 @@ kernel 也可以使用 ``__block_size__`` 注解，它在定义 kernel 时同时
 
 还建议用户选择足以满足其问题的最不通用的同步选项。例如，如果要求 CPU 等待（阻塞）特定 CUDA 流上的所有工作完成，那么对该流使用 ``cudaStreamSynchronize()`` 比 ``cudaDeviceSynchronize()`` 更可取，因为后者会不必要地等待设备上所有 CUDA 流的 GPU 工作完成。如果要求 CPU 在不阻塞的情况下等待，那么使用 ``cudaStreamQuery()`` 并在轮询循环中检查其返回值可能更可取。
 
-使用 CUDA 事件（:ref:`CUDA 事件 <sec:cuda-events>`）也可以实现类似的同步效果，例如，通过在该流上记录一个事件并调用 ``cudaEventSynchronize()`` 以阻塞方式等待该事件捕获的工作完成。同样，这比使用 ``cudaDeviceSynchronize()`` 更可取、更集中。调用 ``cudaEventQuery()`` 并检查其返回值（例如在轮询循环中）将是一种非阻塞的替代方案。
+使用 CUDA 事件（ :ref:`CUDA 事件 <sec:cuda-events>` ）也可以实现类似的同步效果，例如，通过在该流上记录一个事件并调用 ``cudaEventSynchronize()`` 以阻塞方式等待该事件捕获的工作完成。同样，这比使用 ``cudaDeviceSynchronize()`` 更可取、更集中。调用 ``cudaEventQuery()`` 并检查其返回值（例如在轮询循环中）将是一种非阻塞的替代方案。
 
 如果此操作发生在应用程序的关键路径中，选择显式同步方法就特别重要。:numref:`table-streams-event-sync-summary` 提供了与主机同步的各种选项的高级摘要。
 
@@ -294,7 +294,7 @@ CUDA 开发中的一个常见模式是使用批处理技术。批处理是指我
 
 通常，与 CUDA Graphs 和 PDL 一样，批处理的目的是减少单独调度各个批处理任务的开销。在内存传输方面，启动内存传输可能会产生一些 CPU 和驱动程序开销。此外，当前形式的常规 ``cudaMemcpyAsync()`` 函数不一定为驱动程序提供足够的信息来优化传输，例如，关于源和目标的提示。在 Tegra 平台上，可以选择使用 SM 或复制引擎（CE）来执行传输。目前选择哪一个由驱动程序中的启发式方法指定。这可能很重要，因为使用 SM 可能会导致更快的传输，但会占用一些可用的计算能力。另一方面，使用 CE 可能会导致较慢的传输，但整体应用程序性能更高，因为它让 SM 可以自由执行其他工作。
 
-这些考虑促成了 ``cudaMemcpyBatchAsync()`` 函数（及其相关函数 ``cudaMemcpyBatch3DAsync()``）的设计。这些函数允许优化批量内存传输。除了源和目标指针列表外，API 还使用内存复制属性来指定排序期望，以及源和目标位置的提示，以及是否希望将传输与计算重叠（目前仅在带有 CE 的 Tegra 平台上支持）。
+这些考虑促成了 ``cudaMemcpyBatchAsync()`` 函数（及其相关函数 ``cudaMemcpyBatch3DAsync()`` ）的设计。这些函数允许优化批量内存传输。除了源和目标指针列表外，API 还使用内存复制属性来指定排序期望，以及源和目标位置的提示，以及是否希望将传输与计算重叠（目前仅在带有 CE 的 Tegra 平台上支持）。
 
 让我们首先考虑从页锁定主机内存到页锁定设备内存的简单批量传输的最简单情况。
 
@@ -437,7 +437,7 @@ CUDA 开发中的一个常见模式是使用批处理技术。批处理是指我
 3.1.6. 环境变量
 ----------------
 
-CUDA 提供了各种环境变量（参见 :ref:`第 5.2 节 <sec:cuda-environment-variables>`），这些变量可以影响执行和性能。如果未显式设置它们，CUDA 会为它们使用合理的默认值，但在特定情况下可能需要特殊处理，例如，用于调试目的或获得改进的性能。
+CUDA 提供了各种环境变量（参见 :ref:`第 5.2 节 <sec:cuda-environment-variables>` ），这些变量可以影响执行和性能。如果未显式设置它们，CUDA 会为它们使用合理的默认值，但在特定情况下可能需要特殊处理，例如，用于调试目的或获得改进的性能。
 
 例如，增加 ``CUDA_DEVICE_MAX_CONNECTIONS`` 环境变量的值可能是必要的，以减少来自不同 CUDA 流的独立工作由于虚假依赖而被串行化的可能性。当使用相同的底层资源时，可能会引入此类虚假依赖。建议从使用默认值开始，只有在出现性能问题时（例如，无法归因于其他因素（如缺少可用的 SM 资源）的不同 CUDA 流之间独立工作的意外串行化）才探索此环境变量的影响。值得注意的是，在 MPS 情况下，此环境变量具有不同的（较低的）默认值。
 

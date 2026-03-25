@@ -77,7 +77,7 @@
 
 - 解码指令，提取成功/失败状态和被取消的线程块索引。
 
-注意，cluster launch control 操作被建模为异步代理操作（参见 :ref:`sec:async-thread-proxy`）。
+注意，cluster launch control 操作被建模为异步代理操作（参见 :ref:`sec:async-thread-proxy` ）。
 
 .. _sec:thread-block-cancellation:
 
