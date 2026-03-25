@@ -6,6 +6,6 @@
 .. toctree::
    :maxdepth: 2
 
-   01-introduction/introduction
-   01-introduction/programming-model
-   01-introduction/cuda-platform
+   01-introduction/01-introduction
+   01-introduction/02-programming-model
+   01-introduction/03-cuda-platform

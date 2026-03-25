@@ -6,11 +6,11 @@
 .. toctree::
    :maxdepth: 2
 
-   05-appendices/compute-capabilities
-   05-appendices/environment-variables
-   05-appendices/cpp-language-support
-   05-appendices/cpp-language-extensions
-   05-appendices/mathematical-functions
-   05-appendices/device-callable-apis
-   05-appendices/cuda-cpp-memory-model
-   05-appendices/cuda-cpp-execution-model
+   05-appendices/01-compute-capabilities
+   05-appendices/02-environment-variables
+   05-appendices/03-cpp-language-support
+   05-appendices/04-cpp-language-extensions
+   05-appendices/05-mathematical-functions
+   05-appendices/06-device-callable-apis
+   05-appendices/07-cuda-cpp-memory-model
+   05-appendices/08-cuda-cpp-execution-model
