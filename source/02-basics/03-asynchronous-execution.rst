@@ -31,14 +31,14 @@ CUDA 允许多个任务的并发（或重叠）执行，具体包括：
 - **非阻塞方式** （或轮询方式）：应用程序调用一个立即返回的函数，并提供有关操作状态的信息
 - **回调方式** ：当操作完成时，执行预先注册的函数
 
-虽然编程接口是异步的，但实际并发执行各种操作的能力取决于 CUDA 版本和所用硬件的计算能力——这些细节将在本指南的后续章节中讨论（参见 :ref:`sec:compute-capabilities` ）。
+虽然编程接口是异步的，但实际并发执行各种操作的能力取决于 CUDA 版本和所用硬件的计算能力——这些细节将在本指南的后续章节中讨论（参见 :ref:`compute-capabilities` ）。
 
-在 :ref:`sec:intro-synchronizing-the-gpu` 中，介绍了 CUDA runtime 函数 ``cudaDeviceSynchronize()`` ，这是一个阻塞调用，等待所有先前发出的工作完成。需要 ``cudaDeviceSynchronize()`` 调用的原因是 kernel 启动是异步的并立即返回。CUDA 为阻塞和非阻塞同步方式都提供了 API，甚至支持使用主机端回调函数。
+在 :ref:`intro-synchronizing-the-gpu` 中，介绍了 CUDA runtime 函数 ``cudaDeviceSynchronize()`` ，这是一个阻塞调用，等待所有先前发出的工作完成。需要 ``cudaDeviceSynchronize()`` 调用的原因是 kernel 启动是异步的并立即返回。CUDA 为阻塞和非阻塞同步方式都提供了 API，甚至支持使用主机端回调函数。
 
 CUDA 中异步执行的核心 API 组件是 **CUDA 流（CUDA Streams）** 和 **CUDA 事件（CUDA Events）**。
 在本节的其余部分，我们将解释如何使用这些元素来表达 CUDA 中的异步执行。
 
-一个相关主题是 **CUDA 图（CUDA Graphs）**，它允许预先定义异步操作图，然后可以以最小的开销重复执行。我们在 :ref:`sec:async-execution-cuda-graphs` 中简要介绍 CUDA 图，更详细的讨论在 :ref:`sec:cuda-graphs` 中。
+一个相关主题是 **CUDA 图（CUDA Graphs）**，它允许预先定义异步操作图，然后可以以最小的开销重复执行。我们在 :ref:`async-execution-cuda-graphs` 中简要介绍 CUDA 图，更详细的讨论在 :ref:`cuda-graphs` 中。
 
 .. _cuda-streams:
 
@@ -51,7 +51,7 @@ CUDA 流
 
 在流中操作的 API 函数调用和 kernel 启动相对于主机线程是异步的。应用程序可以通过等待流为空来与流同步，也可以在设备级别同步。
 
-CUDA 有一个默认流，没有指定流的操作和 kernel 启动会被排入这个默认流。未指定流的代码示例隐式使用此默认流。默认流有一些特定的语义，在 :ref:`sec:async-execution-blocking-non-blocking-default-stream` 中讨论。
+CUDA 有一个默认流，没有指定流的操作和 kernel 启动会被排入这个默认流。未指定流的代码示例隐式使用此默认流。默认流有一些特定的语义，在 :ref:`async-execution-blocking-non-blocking-default-stream` 中讨论。
 
 创建和销毁 CUDA 流
 ~~~~~~~~~~~~~~~~~~
@@ -150,7 +150,7 @@ CUDA 事件
 
 CUDA 事件是一种将标记插入 CUDA 流的机制。它们本质上就像示踪粒子，可用于跟踪流中任务的进度。想象一下将两个 kernel 启动到一个流中。如果没有这样的跟踪事件，我们只能确定流是否为空。如果我们有一个依赖于第一个 kernel 输出的操作，我们将无法安全地启动该操作，直到我们知道流为空，此时两个 kernel 都已完成。
 
-使用 CUDA 事件我们可以做得更好。通过在第一个 kernel 之后、第二个 kernel 之前将事件入队到流中，我们可以等待此事件到达流的前端。然后，我们可以安全地启动依赖操作，知道第一个 kernel 已完成，但第二个 kernel 尚未开始。以这种方式使用 CUDA 事件可以构建操作和流之间的依赖关系图。这个图的类比直接转化为后面关于 :ref:`sec:async-execution-cuda-graphs` 的讨论。
+使用 CUDA 事件我们可以做得更好。通过在第一个 kernel 之后、第二个 kernel 之前将事件入队到流中，我们可以等待此事件到达流的前端。然后，我们可以安全地启动依赖操作，知道第一个 kernel 已完成，但第二个 kernel 尚未开始。以这种方式使用 CUDA 事件可以构建操作和流之间的依赖关系图。这个图的类比直接转化为后面关于 :ref:`async-execution-cuda-graphs` 的讨论。
 
 CUDA 流还保留时间信息，可用于对 kernel 启动和内存传输进行计时。
 
@@ -522,7 +522,7 @@ CUDA 流排序
 
 ``cudaStreamSynchronize()`` 接受一个流作为参数，并等待给定流中的所有先前命令完成。它可用于将主机与特定流同步，允许其他流继续在设备上执行。
 
-``cudaStreamWaitEvent()`` 接受一个流和一个事件作为参数（有关事件的描述，请参见 :ref:`sec:cuda-events` ），并使调用 ``cudaStreamWaitEvent()`` 之后添加到给定流的所有命令延迟执行，直到给定事件完成。
+``cudaStreamWaitEvent()`` 接受一个流和一个事件作为参数（有关事件的描述，请参见 :ref:`cuda-events` ），并使调用 ``cudaStreamWaitEvent()`` 之后添加到给定流的所有命令延迟执行，直到给定事件完成。
 
 ``cudaStreamQuery()`` 为应用程序提供了一种了解流中所有先前命令是否已完成的方式。
 
@@ -570,7 +570,7 @@ CUDA 流排序
 
 CUDA 流允许程序按顺序指定一系列操作、kernel 或内存复制。使用多个流和 ``cudaStreamWaitEvent`` 的跨流依赖，应用程序可以指定完整的操作有向无环图（DAG）。某些应用程序可能需要在整个执行过程中多次运行一系列操作或 DAG 操作。
 
-对于这种情况，CUDA 提供了一个称为 CUDA 图的功能。本节介绍 CUDA 图和一种称为*流捕获*的创建机制。:ref:`sec:cuda-graphs` 中提供了 CUDA 图的更详细讨论。捕获或创建图可以帮助减少重复从主机线程调用相同 API 调用链的延迟和 CPU 开销。相反，可以调用一次指定图操作的 API，然后多次执行结果图。
+对于这种情况，CUDA 提供了一个称为 CUDA 图的功能。本节介绍 CUDA 图和一种称为*流捕获*的创建机制。:ref:`cuda-graphs` 中提供了 CUDA 图的更详细讨论。捕获或创建图可以帮助减少重复从主机线程调用相同 API 调用链的延迟和 CPU 开销。相反，可以调用一次指定图操作的 API，然后多次执行结果图。
 
 CUDA 图的工作方式如下：
 
@@ -620,7 +620,7 @@ iii. 在剩余的步骤中，预实例化的图被执行所需次数。由于执
        cudaStreamSynchronize(stream);
    }
 
-有关 CUDA 图的更多详细信息，请参见 :ref:`sec:cuda-graphs`。
+有关 CUDA 图的更多详细信息，请参见 :ref:`cuda-graphs`。
 
 异步执行总结
 ------------

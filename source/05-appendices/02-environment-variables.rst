@@ -74,7 +74,7 @@ GPU 标识符的提供方式如下：
 5.2.1.3. ``CUDA_MANAGED_FORCE_DEVICE_ALLOC``
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-该环境变量改变 :ref:`sec:memory-unified-memory` 在多 GPU 系统中的物理存储方式。
+该环境变量改变 :ref:`memory-unified-memory` 在多 GPU 系统中的物理存储方式。
 
 **可选值**：数值，为零或非零。
 
@@ -101,7 +101,7 @@ GPU 标识符的提供方式如下：
 5.2.2.1. ``CUDA_CACHE_DISABLE``
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-该环境变量控制磁盘上 :ref:`sec:just-in-time-compilation` 缓存的行为。禁用 JIT 缓存会强制 CUDA 应用程序每次执行时都进行 PTX 到 CUBIN 的编译，除非在二进制文件中找到运行架构的 CUBIN 代码。
+该环境变量控制磁盘上 :ref:`just-in-time-compilation` 缓存的行为。禁用 JIT 缓存会强制 CUDA 应用程序每次执行时都进行 PTX 到 CUBIN 的编译，除非在二进制文件中找到运行架构的 CUBIN 代码。
 
 禁用 JIT 缓存会增加应用程序在初始执行期间的加载时间。但是，它对于减少应用程序的磁盘空间以及诊断不同驱动程序版本或构建标志之间的差异很有用。
 
@@ -125,7 +125,7 @@ GPU 标识符的提供方式如下：
 5.2.2.2. ``CUDA_CACHE_PATH``
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-该环境变量指定 :ref:`sec:just-in-time-compilation` 缓存的目录路径。
+该环境变量指定 :ref:`just-in-time-compilation` 缓存的目录路径。
 
 **可选值**：缓存目录的绝对路径（具有适当的访问权限）。默认值为：
 
@@ -146,7 +146,7 @@ GPU 标识符的提供方式如下：
 5.2.2.3. ``CUDA_CACHE_MAXSIZE``
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-该环境变量以字节为单位指定 :ref:`sec:just-in-time-compilation` 缓存的大小。超过此大小的二进制文件不会被缓存。如果需要，会从缓存中驱逐较旧的二进制文件以为较新的文件腾出空间。
+该环境变量以字节为单位指定 :ref:`just-in-time-compilation` 缓存的大小。超过此大小的二进制文件不会被缓存。如果需要，会从缓存中驱逐较旧的二进制文件以为较新的文件腾出空间。
 
 **可选值**：字节数。默认值为：
 
@@ -169,7 +169,7 @@ GPU 标识符的提供方式如下：
 5.2.2.4. ``CUDA_FORCE_PTX_JIT`` 和 ``CUDA_FORCE_JIT``
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-这些环境变量指示 CUDA 驱动程序忽略应用程序中嵌入的任何 CUBIN，并对嵌入的 PTX 代码执行 :ref:`sec:just-in-time-compilation`。
+这些环境变量指示 CUDA 驱动程序忽略应用程序中嵌入的任何 CUBIN，并对嵌入的 PTX 代码执行 :ref:`just-in-time-compilation`。
 
 强制 JIT 编译会增加应用程序在初始执行期间的加载时间。但是，它可用于验证 PTX 代码是否嵌入在应用程序中以及其即时编译是否正常工作。这确保了与未来架构的 `前向兼容性 <https://docs.nvidia.com/deploy/cuda-compatibility/>`_。
 
@@ -194,9 +194,9 @@ GPU 标识符的提供方式如下：
 5.2.2.5. ``CUDA_DISABLE_PTX_JIT`` 和 ``CUDA_DISABLE_JIT``
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-这些环境变量禁用嵌入 PTX 代码的 :ref:`sec:just-in-time-compilation`，并使用应用程序中嵌入的兼容 CUBIN。
+这些环境变量禁用嵌入 PTX 代码的 :ref:`just-in-time-compilation`，并使用应用程序中嵌入的兼容 CUBIN。
 
-如果内核没有嵌入的二进制代码，或者嵌入的二进制是为不兼容的架构编译的，则内核将无法加载。这些环境变量可用于验证应用程序是否为每个内核生成了兼容的 CUBIN 代码。有关更多详细信息，请参阅 :ref:`sec:binary-compatibility` 部分。
+如果内核没有嵌入的二进制代码，或者嵌入的二进制是为不兼容的架构编译的，则内核将无法加载。这些环境变量可用于验证应用程序是否为每个内核生成了兼容的 CUBIN 代码。有关更多详细信息，请参阅 :ref:`binary-compatibility` 部分。
 
 ``CUDA_DISABLE_PTX_JIT`` 优先于 ``CUDA_DISABLE_JIT`` 。
 
@@ -219,11 +219,11 @@ GPU 标识符的提供方式如下：
 5.2.2.6. ``CUDA_FORCE_PRELOAD_LIBRARIES``
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-该环境变量影响 :ref:`sec:just-in-time-compilation` 和 `NVVM <https://docs.nvidia.com/cuda/nvvm-ir-spec/>`_ 所需库的预加载。
+该环境变量影响 :ref:`just-in-time-compilation` 和 `NVVM <https://docs.nvidia.com/cuda/nvvm-ir-spec/>`_ 所需库的预加载。
 
 **可选值**：
 
-- ``1`` ：强制驱动程序在初始化期间预加载 :ref:`sec:just-in-time-compilation` 和 `NVVM <https://docs.nvidia.com/cuda/nvvm-ir-spec/>`_ 所需的库。这会增加 CUDA 驱动程序初始化所需的内存占用和时间。设置此环境变量对于避免涉及多线程的某些死锁情况是必要的。
+- ``1`` ：强制驱动程序在初始化期间预加载 :ref:`just-in-time-compilation` 和 `NVVM <https://docs.nvidia.com/cuda/nvvm-ir-spec/>`_ 所需的库。这会增加 CUDA 驱动程序初始化所需的内存占用和时间。设置此环境变量对于避免涉及多线程的某些死锁情况是必要的。
 
 - ``0`` ：默认行为。
 
@@ -287,7 +287,7 @@ GPU 标识符的提供方式如下：
 5.2.3.3. ``CUDA_DEVICE_MAX_COPY_CONNECTIONS``
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-该环境变量控制复制操作中涉及的并发复制连接（工作队列）的数量。它仅影响 :ref:`sec:compute-capabilities` 8.0 及以上的设备。
+该环境变量控制复制操作中涉及的并发复制连接（工作队列）的数量。它仅影响 :ref:`compute-capabilities` 8.0 及以上的设备。
 
 如果同时设置了 ``CUDA_DEVICE_MAX_COPY_CONNECTIONS`` 和 ``CUDA_DEVICE_MAX_CONNECTIONS`` ，则 ``CUDA_DEVICE_MAX_COPY_CONNECTIONS`` 会覆盖通过 ``CUDA_DEVICE_MAX_CONNECTIONS`` 设置的复制连接值。
 
@@ -371,9 +371,9 @@ GPU 标识符的提供方式如下：
 5.2.3.7. ``CUDA_DEVICE_DEFAULT_PERSISTING_L2_CACHE_PERCENTAGE_LIMIT``
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-该环境变量控制 GPU 的 L2 缓存中为 :ref:`sec:l2-set-aside` 保留的默认「预留」部分，以 L2 大小的百分比表示。
+该环境变量控制 GPU 的 L2 缓存中为 :ref:`l2-set-aside` 保留的默认「预留」部分，以 L2 大小的百分比表示。
 
-它与支持持久 L2 缓存的 GPU 相关，特别是使用 `CUDA 多进程服务 (MPS) <https://docs.nvidia.com/deploy/mps/index.html>`_ 时 :ref:`sec:compute-capabilities` 8.0 或更高的设备。必须在启动 CUDA MPS 控制守护进程之前设置此环境变量，即在运行 ``nvidia-cuda-mps-control -d`` 命令之前。
+它与支持持久 L2 缓存的 GPU 相关，特别是使用 `CUDA 多进程服务 (MPS) <https://docs.nvidia.com/deploy/mps/index.html>`_ 时 :ref:`compute-capabilities` 8.0 或更高的设备。必须在启动 CUDA MPS 控制守护进程之前设置此环境变量，即在运行 ``nvidia-cuda-mps-control -d`` 命令之前。
 
 **可选值**：0 到 100 之间的百分比值，默认为 0。
 

@@ -77,7 +77,7 @@
 
 - 解码指令，提取成功/失败状态和被取消的线程块索引。
 
-注意，cluster launch control 操作被建模为异步代理操作（参见 :ref:`sec:async-thread-proxy` ）。
+注意，cluster launch control 操作被建模为异步代理操作（参见 :ref:`async-thread-proxy` ）。
 
 .. _thread-block-cancellation:
 
@@ -122,7 +122,7 @@
 
    .. note::
 
-      由于线程块取消是一个统一指令，建议在 :ref:`sec:cooperative-groups-invoke-one` 线程选择器内提交它。这允许编译器优化掉剥离循环。
+      由于线程块取消是一个统一指令，建议在 :ref:`cooperative-groups-invoke-one` 线程选择器内提交它。这允许编译器优化掉剥离循环。
 
 4. 同步（完成）异步取消请求：
 
@@ -322,7 +322,7 @@
 4.12.2.2. 用例：线程块集群
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-在 :ref:`sec:thread-block-clusters` 的情况下，线程块取消步骤与非集群设置相同，只是略有调整。与非集群情况一样，不建议从**集群内**的多个线程提交取消请求，因为这将尝试取消多个集群。
+在 :ref:`thread-block-clusters` 的情况下，线程块取消步骤与非集群设置相同，只是略有调整。与非集群情况一样，不建议从**集群内**的多个线程提交取消请求，因为这将尝试取消多个集群。
 
 - 取消由单个集群线程提交。
 
@@ -330,7 +330,7 @@
 
 - 同步由每个集群的线程块使用本地 ``__shared__`` 内存屏障执行。屏障操作必须使用 ``ptx::scope_cluster`` 作用域执行。
 
-- 集群情况下的取消需要所有线程块都存在。用户可以使用 :ref:`sec:cg-api-sync-function` API 中的 ``cg::cluster_group::sync()`` 来保证所有线程块都在运行。
+- 集群情况下的取消需要所有线程块都存在。用户可以使用 :ref:`cg-api-sync-function` API 中的 ``cg::cluster_group::sync()`` 来保证所有线程块都在运行。
 
 下面的 kernel 演示了使用线程块集群的 cluster launch control 方法。
 

@@ -92,7 +92,7 @@ cuda_guide_cn/
 
 Introduction
 ------------
-This section can be referenced via :ref:`sec:introduction`.
+This section can be referenced via :ref:`introduction`.
 ```
 
 **Lists**:

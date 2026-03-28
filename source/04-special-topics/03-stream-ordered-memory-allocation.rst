@@ -193,7 +193,7 @@ API ``cudaMallocFromPoolAsync`` 和 `cudaMallocAsync 的 C++ 重载 <https://doc
 4.3.3.4. 为 IPC 启用内存池
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-内存池可以为进程间通信（IPC）启用，以允许进程之间轻松、高效和安全地共享 GPU 内存。CUDA 的 IPC 内存池提供与 CUDA :ref:`sec:virtual-memory-management` 相同的安全优势。
+内存池可以为进程间通信（IPC）启用，以允许进程之间轻松、高效和安全地共享 GPU 内存。CUDA 的 IPC 内存池提供与 CUDA :ref:`virtual-memory-management` 相同的安全优势。
 
 使用内存池在进程之间共享内存有两个步骤：进程首先需要共享对池的访问权限，然后共享该池中的特定分配。第一步建立并强制执行安全性。第二步协调每个进程中使用的虚拟地址以及导入进程中映射需要何时有效。
 
@@ -253,7 +253,7 @@ API ``cudaMallocFromPoolAsync`` 和 `cudaMallocAsync 的 C++ 重载 <https://doc
 
 导入的内存池最初只能从其驻留设备访问。导入的内存池不继承导出进程设置的任何可访问性。导入进程需要使用 ``cudaMemPoolSetAccess`` 从其计划访问内存的任何 GPU 启用访问权限。
 
-如果导入的内存池属于对导入进程不可见的设备，用户必须使用 ``cudaMemPoolSetAccess`` API 从将要使用分配的 GPU 启用访问权限。（参见 :ref:`sec:soma-device-accessibility` ）
+如果导入的内存池属于对导入进程不可见的设备，用户必须使用 ``cudaMemPoolSetAccess`` API 从将要使用分配的 GPU 启用访问权限。（参见 :ref:`soma-device-accessibility` ）
 
 .. _soma-creating-sharing-allocations:
 

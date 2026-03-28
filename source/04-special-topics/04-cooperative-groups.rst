@@ -158,7 +158,7 @@ Cooperative Groups 通过 Cooperative Group 句柄进行管理。Cooperative Gro
    // 同步块中的线程
    cg::sync(my_group);
 
-Cooperative Groups 可用于同步整个 grid。从 CUDA 13 开始，Cooperative Groups 不再能用于多设备同步。详情请参阅 :ref:`sec:cg-large-scale-groups` 章节。
+Cooperative Groups 可用于同步整个 grid。从 CUDA 13 开始，Cooperative Groups 不再能用于多设备同步。详情请参阅 :ref:`cg-large-scale-groups` 章节。
 
 有关同步的更多信息可在 :doc:`../05-appendices/device-callable-apis` 中的 Cooperative Groups API 章节找到。
 

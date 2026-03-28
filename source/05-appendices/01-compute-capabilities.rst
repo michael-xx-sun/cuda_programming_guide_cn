@@ -9,7 +9,7 @@
 
 所有 NVIDIA GPU 架构都使用小端序（little-endian）表示。
 
-.. _compute-capabilities-obtain-the-gpu-compute-capability:
+.. _compute-capabilities-querying:
 
 获取 GPU 计算能力
 ------------------

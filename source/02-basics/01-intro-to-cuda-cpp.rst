@@ -1,40 +1,47 @@
 .. _intro-to-cuda-c:
-.. _intro-applications-cpp:
 
 2.1. CUDA C++ 简介
 ==================
 
 本章通过 C++ 示例介绍 CUDA 编程模型的一些基本概念。
 
-本编程指南主要关注 CUDA runtime API。CUDA runtime API 是在 C++ 中使用 CUDA 最常用的方式，它建立在较低级别的 CUDA driver API 之上。
+本编程指南主要关注 CUDA runtime API。
+CUDA runtime API 是在 C++ 中使用 CUDA 最常用的方式，它建立在较低级别的 CUDA driver API 之上。
 
-:ref:`CUDA 工具包和 NVIDIA 驱动程序<cuda-toolkit-and-nvidia-driver>` 讨论了这两种 API 之间的区别， :ref:`CUDA Driver API<driver-api>` 讨论了混合使用这两种 API 编写代码的方法。
+:ref:`cuda-toolkit-and-nvidia-driver` 讨论了这两种 API 之间的区别， :ref:`driver-api` 讨论了混合使用这两种 API 编写代码的方法。
 
-本指南假设已安装 CUDA Toolkit 和 NVIDIA Driver，并且存在支持的 NVIDIA GPU。有关安装必要 CUDA 组件的说明，请参阅 `CUDA 快速入门指南 <https://docs.nvidia.com/cuda/cuda-quick-start-guide/index.html>`__。
+本指南假设已安装 CUDA Toolkit 和 NVIDIA Driver，并且存在支持的 NVIDIA GPU。
+有关安装必要 CUDA 组件的说明，请参阅 `CUDA 快速入门指南 <https://docs.nvidia.com/cuda/cuda-quick-start-guide/index.html>`_。
+
 
 .. _compilation-with-nvcc:
 
 2.1.1. 使用 NVCC 编译
 ----------------------
 
-用 C++ 编写的 GPU 代码使用 NVIDIA Cuda 编译器 ``nvcc`` 进行编译。 ``nvcc`` 是一个编译器驱动程序，它简化了编译 C++ 或 PTX 代码的过程：它提供简单且熟悉的命令行选项，并通过调用实现不同编译阶段的工具集合来执行这些选项。
+用 C++ 编写的 GPU 代码使用 NVIDIA Cuda 编译器 ``nvcc`` 进行编译。
+``nvcc`` 是一个编译器驱动程序，它简化了编译 C++ 或 PTX 代码的过程：它提供简单且熟悉的命令行选项，并通过调用实现不同编译阶段的工具集合来执行这些选项。
 
 本指南将展示可以在任何安装了 CUDA Toolkit 的 Linux 系统、Windows 命令行或 PowerShell，以及安装了 CUDA Toolkit 的 Windows Subsystem for Linux 上使用的 ``nvcc`` 命令行。
-本指南的 :doc:`nvcc` 章节涵盖了 ``nvcc`` 的常见用例，完整文档由 `nvcc 用户手册 <https://docs.nvidia.com/cuda/cuda-compiler-driver-nvcc/index.html>`__ 提供。
+本指南的 :ref:`nvcc` 章节涵盖了 ``nvcc`` 的常见用例，完整文档由 `nvcc 用户手册 <https://docs.nvidia.com/cuda/cuda-compiler-driver-nvcc/index.html>`_ 提供。
 
 .. _kernels:
 
 2.1.2. Kernel
 --------------
 
-正如 :ref:`programming-model` 的介绍中所述，在 GPU 上执行且可以从主机调用的函数称为 kernel。Kernel 被编写为由许多并行线程同时运行。
+正如 :ref:`programming-model` 的介绍中所述，在 GPU 上执行且可以从主机调用的函数称为核函数 (kernel) 。
+Kernel 被编写为由许多并行线程同时运行。
 
 .. _intro-cpp-specifying-kernels:
 
 2.1.2.1. 指定 Kernel
 ^^^^^^^^^^^^^^^^^^^^
 
-Kernel 的代码使用 ``__global__`` 声明说明符指定。这向编译器表明该函数将被编译为 GPU 代码，并允许从 kernel 启动中调用它。Kernel 启动是一个启动 kernel 运行的操作，通常从 CPU 发起。Kernel 是返回类型为 ``void`` 的函数。
+Kernel 的代码使用 ``__global__`` 声明说明符指定。
+这向编译器表明该函数将被编译为 GPU 代码，并允许从 kernel 启动中调用它。
+``kernel launch`` 是一个启动 kernel 运行的操作，通常从 CPU 发起。
+Kernel 是返回类型为 ``void`` 的函数。
 
 .. code-block:: cuda
 
@@ -44,6 +51,7 @@ Kernel 的代码使用 ``__global__`` 声明说明符指定。这向编译器表
 
    }
 
+
 .. _intro-cpp-launching-kernels:
 
 2.1.2.2. 启动 Kernel
@@ -51,14 +59,18 @@ Kernel 的代码使用 ``__global__`` 声明说明符指定。这向编译器表
 
 并行执行 kernel 的线程数量作为 kernel 启动的一部分指定。这称为执行配置。同一 kernel 的不同调用可以使用不同的执行配置，例如不同数量的线程或线程块。
 
-从 CPU 代码启动 kernel 有两种方式：:ref:`intro-cpp-launching-kernels-triple-chevron` 和 ``cudaLaunchKernelEx`` 。三重尖括号表示法是最常用的 kernel 启动方式，在此介绍。使用 ``cudaLaunchKernelEx`` 启动 kernel 的示例在 :numref:`Section 3.1.1` 中详细展示和讨论。
+从 CPU 代码启动 kernel 有两种方式：:ref:`intro-cpp-launching-kernels-triple-chevron` 和 ``cudaLaunchKernelEx`` 。
+三重尖括号表示法是最常用的 kernel 启动方式，在此介绍。
+使用 ``cudaLaunchKernelEx`` 启动 kernel 的示例在 :ref:`cudaLaunchKernelEx` 中详细展示和讨论。
 
 .. _intro-cpp-launching-kernels-triple-chevron:
 
 2.1.2.2.1. 三重尖括号表示法
 """"""""""""""""""""""""""""
 
-三重尖括号表示法是一种用于启动 kernel 的 :ref:`execution-configuration`。它之所以称为三重尖括号，是因为它使用三个尖括号字符来封装 kernel 启动的执行配置，即 ``<<< >>>`` 。执行配置参数在尖括号内以逗号分隔的列表形式指定，类似于函数调用的参数。下面显示了 ``vecAdd`` kernel 启动的语法。
+三重尖括号表示法是一种用于启动 kernel 的 :ref:`execution-configuration`。
+它之所以称为三重尖括号，是因为它使用三个尖括号字符来封装 kernel 启动的执行配置，即 ``<<< >>>`` 。
+执行配置参数在尖括号内以逗号分隔的列表形式指定，类似于函数调用的参数。下面显示了 ``vecAdd`` kernel 启动的语法。
 
 .. code-block:: cuda
 
