@@ -216,7 +216,7 @@ CUDA 事件默认携带计时信息，因为它们可以在 ``cudaEventElapsedTi
 
 由于这在很大程度上取决于具体的 kernel，因此很难完全自动化，因此 CUDA 提供了一种机制，允许应用程序开发者指定两个 kernel 之间的同步点。这通过一种称为程序化依赖 Kernel 启动（Programmatic Dependent Kernel Launch）的技术完成。下图描述了这种情况。
 
-.. _fig:pdl:
+.. _fig-pdl:
 .. figure:: /_static/images/pdl.png
    :alt: 程序化依赖 Kernel 启动
    :align: center

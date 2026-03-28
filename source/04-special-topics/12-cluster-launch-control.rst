@@ -29,7 +29,7 @@
 
 **Cluster Launch Control** 是 NVIDIA Blackwell GPU 架构（计算能力 10.0）中引入的一项功能，旨在结合前两种方法的优点。它通过允许开发者取消线程块或线程块集群，为他们提供了对线程块调度的更多控制。这种机制实现了工作窃取。工作窃取是并行计算中的一种动态负载均衡技术，其中空闲的处理器主动从忙碌处理器的工作队列中"窃取"任务，而不是等待分配工作。
 
-.. _fig:cluster-launch-control:
+.. _fig-cluster-launch-control:
 
 .. figure:: ../_static/images/cluster_launch_control.png
    :alt: Cluster Launch Control Flow

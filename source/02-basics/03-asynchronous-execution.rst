@@ -17,7 +17,7 @@ CUDA 允许多个任务的并发（或重叠）执行，具体包括：
 
 并发性通过异步接口实现，其中分发函数调用或 kernel 启动会立即返回。异步调用通常在分发的操作完成之前返回，甚至可能在异步操作开始之前返回。然后，应用程序可以在最初分发的操作执行期间自由执行其他任务。当需要最初分发操作的最终结果时，应用程序必须执行某种形式的同步，以确保相关操作已完成。并发执行模式的一个典型示例是将主机和设备内存传输与计算重叠，从而减少或消除其开销。
 
-.. _fig:asynchronous-concurrent-execution-with-cuda-streams:
+.. _fig-asynchronous-concurrent-execution-with-cuda-streams:
 .. figure:: /_static/images/cuda_streams.png
    :align: center
    :width: 1000px

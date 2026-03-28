@@ -28,7 +28,7 @@ Threads 被组织成 thread blocks，然后被组织成 grid。Grids 可以是 1
 
 :numref:`fig:writing-cuda-kernels-thread-hierarchy-review-grid-of-thread-blocks` 展示了一个带有 1D thread blocks 的 2D grid 的简单示例。
 
-.. _fig:writing-cuda-kernels-thread-hierarchy-review-grid-of-thread-blocks:
+.. _fig-writing-cuda-kernels-thread-hierarchy-review-grid-of-thread-blocks:
 
 .. figure:: /_static/images/grid-of-thread-blocks.png
    :alt: Grid of Thread Blocks
@@ -384,7 +384,7 @@ GPU 可能有专用指令用于从图像加载数据以用作 3D 渲染中的纹
 
 作为一个简单的示例，如果 warp 中的连续 threads 请求内存中连续的 4 字节字，那么 warp 将总共请求 128 字节的内存，这 128 字节将在四个 32 字节内存事务中获取。这导致内存系统 100% 的利用率。也就是说，100% 的内存流量被 warp 使用。:numref:`fig:writing-cuda-kernels-128-byte-coalesced-access` 展示了这个完美合并内存访问的示例。
 
-.. _fig:writing-cuda-kernels-128-byte-coalesced-access:
+.. _fig-writing-cuda-kernels-128-byte-coalesced-access:
 
 .. figure:: /_static/images/perfect_coalescing_32byte_segments.png
    :alt: Coalesced memory access
@@ -393,7 +393,7 @@ GPU 可能有专用指令用于从图像加载数据以用作 3D 渲染中的纹
 
 相反，病理上最坏的情况是连续 threads 访问在内存中彼此相距 32 字节或更多的数据元素。在这种情况下，warp 将被迫为每个线程发出一个 32 字节内存事务，内存流量总字节数将是 32 字节 * 32 threads/warp = 1024 字节。然而，使用的内存量将只有 128 字节（warp 中每个线程 4 字节），因此内存利用率将只有 128 / 1024 = 12.5%。这是内存系统的非常低效的使用。:numref:`fig:writing-cuda-kernels-128-byte-no-coalesced-access` 展示了这个非合并内存访问的示例。
 
-.. _fig:writing-cuda-kernels-128-byte-no-coalesced-access:
+.. _fig-writing-cuda-kernels-128-byte-no-coalesced-access:
 
 .. figure:: /_static/images/no_coalescing_32byte_segments.png
    :alt: Uncoalesced memory access
@@ -426,7 +426,7 @@ GPU 可能有专用指令用于从图像加载数据以用作 3D 渲染中的纹
 
 作为一个简单的示例，考虑一个就地矩阵转置 kernel，它将大小为 N x N 的 32 位 float 方阵从矩阵 ``a`` 转置到矩阵 ``c`` 。此示例使用 2d grid，并假设启动大小为 32 x 32 threads 的 2d thread blocks，即 ``blockDim.x = 32`` 和 ``blockDim.y = 32`` ，因此每个 2d thread block 将操作矩阵的一个 32 x 32 tile。每个 thread 操作矩阵的一个唯一元素，因此不需要显式的线程同步。:numref:`fig:writing-cuda-kernels-figure-global-transpose` 展示了这个矩阵转置操作。kernel 源代码紧随图后。
 
-.. _fig:writing-cuda-kernels-figure-global-transpose:
+.. _fig-writing-cuda-kernels-figure-global-transpose:
 
 .. figure:: /_static/images/global_transpose.png
    :alt: Matrix Transpose using Global memory
@@ -475,7 +475,7 @@ GPU 可能有专用指令用于从图像加载数据以用作 3D 渲染中的纹
 
 :numref:`fig:writing-cuda-kernels-shared-memory-5-x-examples-of-strided-shared-memory-accesses` 展示了一些步幅访问的示例。bank 内的红色框表示共享内存中的唯一位置。
 
-.. _fig:writing-cuda-kernels-shared-memory-5-x-examples-of-strided-shared-memory-accesses:
+.. _fig-writing-cuda-kernels-shared-memory-5-x-examples-of-strided-shared-memory-accesses:
 
 .. figure:: /_static/images/examples-of-strided-shared-memory-accesses.png
    :alt: Strided Shared Memory Accesses in 32 bit bank size mode.
@@ -491,7 +491,7 @@ GPU 可能有专用指令用于从图像加载数据以用作 3D 渲染中的纹
 
 :numref:`fig:writing-cuda-kernels-shared-memory-5-x-examples-of-irregular-shared-memory-accesses` 展示了一些涉及广播机制的内存读取访问示例。bank 内的红色框表示共享内存中的唯一位置。如果多个箭头指向同一位置，数据将被广播给所有请求它的 threads。
 
-.. _fig:writing-cuda-kernels-shared-memory-5-x-examples-of-irregular-shared-memory-accesses:
+.. _fig-writing-cuda-kernels-shared-memory-5-x-examples-of-irregular-shared-memory-accesses:
 
 .. figure:: /_static/images/examples-of-irregular-shared-memory-accesses.png
    :alt: Irregular Shared Memory Accesses.
@@ -595,7 +595,7 @@ kernel 中的下一步是调用 ``__syncthreads()`` 函数。这确保 thread bl
 
 :numref:`fig:writing-cuda-kernels-figure-bank-conflicts-shared-mem` 的右面板展示了 warp 中的 threads 访问 ``smemArray`` 一行中数据的情况。Warp 0 正在访问内存位置 ``smemArray[0][0]`` 到 ``smemArray[0][31]`` 。在这种情况下，warp 0 中的连续 threads 正在访问相邻的内存位置。如图所示，颜色表示 banks，warp 0 对整个行的这种访问没有 bank conflicts。理想情况是 warp 中的每个 thread 访问具有不同颜色的共享内存位置。
 
-.. _fig:writing-cuda-kernels-figure-bank-conflicts-shared-mem:
+.. _fig-writing-cuda-kernels-figure-bank-conflicts-shared-mem:
 
 .. figure:: /_static/images/bank-conflicts-shared-mem.png
    :alt: Bank Structure in Shared Memory
@@ -628,7 +628,7 @@ kernel 中的下一步是调用 ``__syncthreads()`` 函数。这确保 thread bl
 
 这个对 ``smemArray`` 声明的微小调整将消除 bank conflicts。为了说明这一点，考虑 :numref:`fig:writing-cuda-kernels-figure-no-bank-conflicts-shared-mem`，其中共享内存数组声明为 32 x 33 大小。可以看到，无论同一 warp 中的 threads 是访问整个列还是整个行的共享内存数组，bank conflicts 都已被消除，即同一 warp 中的 threads 访问具有不同颜色的位置。
 
-.. _fig:writing-cuda-kernels-figure-no-bank-conflicts-shared-mem:
+.. _fig-writing-cuda-kernels-figure-no-bank-conflicts-shared-mem:
 
 .. figure:: /_static/images/no-bank-conflicts-shared-mem.png
    :alt: Bank Structure in Shared Memory
