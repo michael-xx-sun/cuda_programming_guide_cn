@@ -1,7 +1,7 @@
 .. _driver-entry-point-access:
 
-Driver Entry Point Access
-==========================
+4.20. Driver Entry Point Access
+================================
 
 .. _introduction-driver-entry-point-access:
 

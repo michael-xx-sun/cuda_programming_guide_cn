@@ -1,7 +1,7 @@
 .. _pipelines:
 
-Pipelines
-=========
+4.10. Pipelines
+================
 
 Pipelines 在 :ref:`advanced-kernels-advanced-sync-primitives` 中介绍，是一种用于阶段化工作和协调多缓冲区生产者-消费者模式的机制，通常用于将计算与 :ref:`advanced-kernels-async-copies` 重叠执行。
 

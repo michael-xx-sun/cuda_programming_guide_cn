@@ -68,7 +68,7 @@ Kernel 是返回类型为 ``void`` 的函数。
 2.1.2.2.1. 三重尖括号表示法
 """"""""""""""""""""""""""""
 
-三重尖括号表示法是一种用于启动 kernel 的 :ref:`execution-configuration`。
+三重尖括号表示法是一种用于启动 kernel 的 :ref:`CUDA C++ Language Extension<kernel-configuration>` 。
 它之所以称为三重尖括号，是因为它使用三个尖括号字符来封装 kernel 启动的执行配置，即 ``<<< >>>`` 。
 执行配置参数在尖括号内以逗号分隔的列表形式指定，类似于函数调用的参数。下面显示了 ``vecAdd`` kernel 启动的语法。
 
@@ -89,11 +89,15 @@ Kernel 是返回类型为 ``void`` 的函数。
 
 三重尖括号表示法的前两个参数分别是 grid 维度和 thread block 维度。当使用一维 thread block 或 grid 时，可以使用整数来指定维度。
 
-上面的代码启动一个包含 256 个线程的单个 thread block。每个线程将执行完全相同的 kernel 代码。在 :ref:`intro-cpp-thread-indexing` 中，我们将展示每个线程如何使用其在 thread block 和 grid 中的索引来更改它操作的数据。
+上面的代码启动一个包含 256 个线程的单个 thread block。每个线程将执行完全相同的 kernel 代码。
+在 :ref:`intro-cpp-thread-indexing` 中，我们将展示每个线程如何使用其在 thread block 和 grid 中的索引来更改它操作的数据。
 
-每个 block 中的线程数量有限制，因为 block 的所有线程都驻留在同一个流式多处理器 (SM) 上，并且必须共享 SM 的资源。在当前的 GPU 上，一个 thread block 最多可以包含 1024 个线程。如果资源允许，可以在一个 SM 上同时调度多个 thread block。
+每个 block 中的线程数量有限制，因为 block 的所有线程都驻留在同一个流式多处理器 (SM) 上，并且必须共享 SM 的资源。
+在当前的 GPU 上，一个 thread block 最多可以包含 1024 个线程。如果资源允许，可以在一个 SM 上同时调度多个 thread block。
 
-Kernel 启动相对于主机线程是异步的。也就是说，kernel 将被设置为在 GPU 上执行，但主机代码不会等待 kernel 在 GPU 上完成（甚至开始）执行后才继续。必须使用某种形式的 GPU 和 CPU 之间的同步来确定 kernel 已完成。最基本的版本是完全同步整个 GPU，如 :ref:`intro-synchronizing-the-gpu` 所示。更复杂的同步方法在 :doc:`asynchronous-execution` 中介绍。
+Kernel 启动相对于主机线程是异步的。也就是说，kernel 将被设置为在 GPU 上执行，但主机代码不会等待 kernel 在 GPU 上完成（甚至开始）执行后才继续。
+必须使用某种形式的 GPU 和 CPU 之间的同步来确定 kernel 已完成。
+最基本的版本是完全同步整个 GPU，如 :ref:`intro-synchronizing-the-gpu` 所示。更复杂的同步方法在 :ref:`asynchronous-execution` 中介绍。
 
 当使用 2 维或 3 维 grid 或 thread block 时，CUDA 类型 ``dim3`` 用作 grid 和 thread block 维度参数。下面的代码片段显示了一个使用 16×16 grid 的 thread block 启动 ``MatAdd`` kernel，每个 thread block 为 8×8。
 
@@ -268,7 +272,9 @@ Kernel 启动相对于主机线程是异步的。也就是说，kernel 将被设
 2.1.3.2. 显式内存管理
 ^^^^^^^^^^^^^^^^^^^^^
 
-显式管理内存分配和内存空间之间的数据迁移可以帮助提高应用程序性能，尽管这会使代码更加冗长。下面的代码使用 ``cudaMalloc`` 在 GPU 上显式分配内存。GPU 上的内存使用与前面统一内存示例中相同的 ``cudaFree`` API 释放。
+显式管理内存分配和内存空间之间的数据迁移可以帮助提高应用程序性能，尽管这会使代码更加冗长。
+下面的代码使用 ``cudaMalloc`` 在 GPU 上显式分配内存。
+GPU 上的内存使用与前面统一内存示例中相同的 ``cudaFree`` API 释放。
 
 .. code-block:: cuda
 
@@ -343,7 +349,7 @@ Kernel 启动相对于主机线程是异步的。也就是说，kernel 将被设
 
 CUDA API ``cudaMemcpy`` 用于将数据从驻留在 CPU 上的缓冲区复制到驻留在 GPU 上的缓冲区。
 除了目标指针、源指针和大小（以字节为单位）之外， ``cudaMemcpy`` 的最后一个参数是 ``cudaMemcpyKind_t`` 。
-它可以具有诸如 ``cudaMemcpyHostToDevice``（用于从 CPU 到 GPU 的复制）、 ``cudaMemcpyDeviceToHost``（用于从 GPU 到 CPU 的复制）或 ``cudaMemcpyDeviceToDevice``（用于 GPU 内部或 GPU 之间的复制）等值。
+它可以具有诸如 ``cudaMemcpyHostToDevice`` （用于从 CPU 到 GPU 的复制）、 ``cudaMemcpyDeviceToHost`` （用于从 GPU 到 CPU 的复制）或 ``cudaMemcpyDeviceToDevice`` （用于 GPU 内部或 GPU 之间的复制）等值。
 
 在此示例中， ``cudaMemcpyDefault`` 作为最后一个参数传递给 ``cudaMemcpy`` 。这使 CUDA 使用源指针和目标指针的值来确定要执行的复制类型。
 

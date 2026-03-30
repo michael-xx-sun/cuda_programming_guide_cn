@@ -1,7 +1,7 @@
 .. _compute-capabilities:
 
-计算能力
-========
+5.1. 计算能力
+==============
 
 计算设备的一般规格和功能取决于其计算能力（参见 :ref:`cuda-platform-compute-capability-sm-version` ）。
 

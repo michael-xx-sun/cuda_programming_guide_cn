@@ -1,6 +1,6 @@
 .. _cuda-cpp-execution-model:
 
-第 5.8 节 CUDA C++ 执行模型
+5.8. CUDA C++ 执行模型
 ============================
 
 CUDA C++ 旨在为所有设备执行线程提供 `parallel forward progress [intro.progress.9] <https://eel.is/c++draft/intro.progress#9>`__，从而促进使用 CUDA C++ 并行化现有的 C++ 应用程序。

@@ -1,7 +1,7 @@
 .. _extended-gpu-memory-details:
 
-扩展 GPU 内存
-=============
+4.17. 扩展 GPU 内存
+===================
 
 扩展 GPU 内存（Extended GPU Memory，EGM）功能利用高带宽 NVLink-C2C，使 GPU 能够高效访问所有系统内存，无论是单节点还是多节点系统。EGM 适用于集成 CPU-GPU NVIDIA 系统，允许分配可被系统中任何 GPU 线程访问的物理内存。EGM 确保所有 GPU 都能以 GPU-GPU NVLink 或 NVLink-C2C 的速度访问其资源。
 

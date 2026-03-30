@@ -1,6 +1,6 @@
 .. _memory-sync-domains:
 
-内存同步域
+4.14. 内存同步域
 ====================
 
 .. _memory-fence-interference:

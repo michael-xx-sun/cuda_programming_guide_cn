@@ -1,7 +1,7 @@
 .. _l2-cache-control:
 
-L2 缓存控制
-============
+4.13. L2 缓存控制
+==================
 
 .. _advanced-kernels-l2-control:
 
