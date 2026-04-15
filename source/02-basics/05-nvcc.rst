@@ -3,7 +3,11 @@
 2.5. NVCC：NVIDIA CUDA 编译器
 =============================
 
-`NVIDIA CUDA 编译器 <https://docs.nvidia.com/cuda/cuda-compiler-driver-nvcc/index.html>`_ ``nvcc`` 是 NVIDIA 提供的工具链，用于编译 CUDA C/C++ 以及 `PTX <https://docs.nvidia.com/cuda/parallel-thread-execution/index.html>`_ 代码。该工具链是 `CUDA Toolkit <https://developer.nvidia.com/cuda-toolkit>`_ 的一部分，包含多个工具，包括编译器、链接器以及 PTX 和 `Cubin <../01-introduction/cuda-platform.html#cuda-platform-cubins-fatbins>`__ 汇编器。顶层 ``nvcc`` 工具协调编译过程，为每个编译阶段调用适当的工具。
+`NVIDIA CUDA 编译器 <https://docs.nvidia.com/cuda/cuda-compiler-driver-nvcc/index.html>`_ ``nvcc`` 是 NVIDIA 提供的工具链，
+用于编译 CUDA C/C++ 以及 `PTX <https://docs.nvidia.com/cuda/parallel-thread-execution/index.html>`_ 代码。
+该工具链是 `CUDA Toolkit <https://developer.nvidia.com/cuda-toolkit>`_ 的一部分，包含多个工具，
+包括编译器、链接器以及 PTX 和 `Cubin <../01-introduction/cuda-platform.html#cuda-platform-cubins-fatbins>`__ 汇编器。
+顶层工具 ``nvcc`` 协调编译过程，为每个编译阶段调用适当的工具。
 
 ``nvcc`` 驱动 CUDA 代码的离线编译，这与由 CUDA 运行时编译器 `nvrtc <https://docs.nvidia.com/cuda/nvrtc/index.html>`_ 驱动的在线或即时（JIT）编译形成对比。
 

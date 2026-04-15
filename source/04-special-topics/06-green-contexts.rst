@@ -269,7 +269,7 @@ Green Context 创建的第二步是静态地将可用的 ``cudaDevResource`` SM 
 .. _green-contexts-create-green-ctx:
 
 4.6.4.5. 步骤 4：创建 Green Context
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 最后一步是使用 ``cudaGreenCtxCreate`` API 创建 Green Context。
 
@@ -281,7 +281,7 @@ Green Context 创建的第二步是静态地将可用的 ``cudaDevResource`` SM 
 .. _green-contexts-launching-work:
 
 4.6.5. Green Contexts：启动工作
-------------------------------
+-------------------------------------
 
 Green Context 创建后，您可以创建属于该 Green Context 的 CUDA 流。随后在此类流上启动的 GPU 工作（如通过 ``<<< >>>`` 启动的核函数）将只能访问此 Green Context 分配的资源。
 
