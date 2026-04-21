@@ -3,23 +3,31 @@
 3.2. 高级核函数编程
 =======================
 
-本章首先深入探讨 NVIDIA GPU 的硬件模型，然后介绍 CUDA 核函数代码中一些旨在提高核函数性能的高级特性。本章将介绍与线程作用域、异步执行以及相关同步原语相关的一些概念。这些概念性讨论为核函数中可用的一些高级性能特性提供了必要的基础。
+本章首先深入探讨 NVIDIA GPU 的硬件模型，然后介绍 CUDA 核函数代码中一些旨在提高核函数性能的高级特性。
+本章将介绍与线程作用域、异步执行以及相关同步原语相关的一些概念。
+这些概念性讨论为核函数中可用的一些高级性能特性提供了必要的基础。
 
 本编程指南下一部分中专门介绍这些特性的章节包含了其中一些特性的详细描述。
 
-- 本章介绍的「高级同步原语」在 :doc:`../04-special-topics/async-barriers` 和 :doc:`../04-special-topics/pipelines` 中有完整介绍。
-- 本章介绍的「异步数据拷贝」（包括张量内存加速器 TMA）在 :doc:`../04-special-topics/async-copies` 中有完整介绍。
+- 本章介绍的 :ref:`高级同步原语<advanced-synchronization-primitives>` 在 :ref:`async-barriers-details` 和 :ref:`pipelines-details` 中有完整介绍。
+- 本章介绍的 :ref:`异步数据拷贝<asynchronous-data-copies>`（包括张量内存加速器 TMA）在 :ref:`async-copies-details` 中有完整介绍。
 
 .. _using-ptx:
 
 3.2.1. 使用 PTX
 -------------------
 
-并行线程执行（Parallel Thread Execution，PTX）是 CUDA 用来抽象硬件 ISA 的虚拟机指令集架构（ISA），在 :ref:`cuda-platform-ptx` 中已介绍。直接用 PTX 编写代码是一种非常高级的优化技术，大多数开发者并不需要，应该作为最后的手段。然而，在某些情况下，直接编写 PTX 所启用的细粒度控制可以在特定应用中实现性能改进。这些情况通常出现在应用中对性能极其敏感的部分，每一分性能改进都有显著收益。所有可用的 PTX 指令都在 `PTX ISA 文档 <https://docs.nvidia.com/cuda/parallel-thread-execution/index.html>`__ 中。
+并行线程执行（Parallel Thread Execution，PTX）是 CUDA 用来抽象硬件 ISA 的虚拟机指令集架构（ISA），在 :ref:`cuda-platform-ptx` 中已介绍。
+直接用 PTX 编写代码是一种非常高级的优化技术，大多数开发者并不需要，应该作为最后的手段。
+然而，在某些情况下，直接编写 PTX 所启用的细粒度控制可以在特定应用中实现性能改进。
+这些情况通常出现在应用中对性能极其敏感的部分，每一分性能改进都有显著收益。
+所有可用的 PTX 指令都在 `PTX ISA 文档 <https://docs.nvidia.com/cuda/parallel-thread-execution/index.html>`__ 中。
 
 ``cuda::ptx`` **命名空间**
 
-在代码中直接使用 PTX 的一种方法是使用 `libcu++ <https://nvidia.github.io/cccl/libcudacxx/>`__ 中的 ``cuda::ptx`` 命名空间。该命名空间提供了直接映射到 PTX 指令的 C++ 函数，简化了它们在 C++ 应用程序中的使用。更多信息，请参阅 `cuda::ptx 命名空间 <https://nvidia.github.io/cccl/libcudacxx/ptx_api.html>`__ 文档。
+在代码中直接使用 PTX 的一种方法是使用 `libcu++ <https://nvidia.github.io/cccl/libcudacxx/>`__ 中的 ``cuda::ptx`` 命名空间。
+该命名空间提供了直接映射到 PTX 指令的 C++ 函数，简化了它们在 C++ 应用程序中的使用。
+更多信息，请参阅 `cuda::ptx 命名空间 <https://nvidia.github.io/cccl/libcudacxx/ptx_api.html>`__ 文档。
 
 **内联 PTX**
 
@@ -664,55 +672,42 @@ CUDA 编程模型提供流水线同步对象作为协调机制，将异步内存
 .. list-table:: 异步拷贝可能的源和目标内存空间。空单元格表示不支持源-目标对。
    :header-rows: 1
    :name: tbl:async-source-dest-state-spaces
-   :widths: 12 18 18 18 18 16
 
    * - 方向
+     - 
      - 拷贝机制
-     - 源
+     - 
+   * - 源
      - 目标
      - 异步拷贝
      - 批量异步拷贝
    * - global
-     - 
      - global
-     - 
-     - shared::cta
-     - 
-   * - global
-     - 
-     - shared::cta
-     - 支持（TMA, 9.0+）
-     - 
-     - 
-   * - global
-     - 
-     - shared::cta
-     - 支持（LDGSTS, 8.0+）
-     - 支持（TMA, 9.0+）
-     - 
-   * - global
-     - 
-     - shared::cluster
-     - 支持（TMA, 9.0+）
-     - 
-     - 
-   * - shared::cluster
-     - 
-     - shared::cta
-     - 支持（TMA, 9.0+）
      - 
      - 
    * - shared::cta
+     - global
      - 
+     - 支持（TMA, 9.0+）
+   * - global
+     - shared::cta
+     - 支持（LDGSTS, 8.0+）
+     - 支持（TMA, 9.0+）
+   * - global
+     - shared::cluster
+     - 
+     - 支持（TMA, 9.0+）
+   * - shared::cluster
+     - shared::cta
+     - 
+     - 支持（TMA, 9.0+）
+   * - shared::cta
      - shared::cta
      - 
      - 
-     - 
    * - registers
-     - 
      - shared::cluster
      - 支持（STAS, 9.0+）
-     - 
      - 
 
 `使用 LDGSTS <../04-special-topics/async-copies.html#async-copies-ldgsts>`__、`使用张量内存加速器（TMA） <../04-special-topics/async-copies.html#async-copies-tma>`__ 和 `使用 STAS <../04-special-topics/async-copies.html#async-copies-stas>`__ 部分将详细介绍每种机制。
@@ -746,7 +741,8 @@ CUDA 编程模型提供流水线同步对象作为协调机制，将异步内存
 
    另一个 CUDA API ``cudaFuncSetCacheConfig`` 也允许应用程序调整核函数的 L1 和共享内存之间的平衡。但是，此 API 为核函数启动设置了 L1/共享内存平衡的硬性要求。因此，交错具有不同共享内存配置的核函数将导致不必要的 `序列化启动 <advanced-host-programming.html#advanced-host-implicit-synchronization>`__，以等待共享内存重新配置。 ``cudaFuncSetAttribute`` 更受推荐，因为驱动程序可能会在需要执行函数或避免抖动时选择不同的配置。
 
-依赖每块超过 48 KB 共享内存分配的核函数是特定于架构的。因此，它们必须使用 :ref:`writing-cuda-kernels-dynamic-allocation-shared-memory` 而不是静态大小的数组，并且需要使用 ``cudaFuncSetAttribute`` 显式选择加入，如下所示。
+依赖每块超过 48 KB 共享内存分配的核函数是特定于架构的。
+因此，它们必须使用 :ref:`writing-cuda-kernels-dynamic-allocation-shared-memory` 而不是静态大小的数组，并且需要使用 ``cudaFuncSetAttribute`` 显式选择加入，如下所示。
 
 .. code-block:: cuda
 
